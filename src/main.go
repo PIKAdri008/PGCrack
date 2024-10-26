@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"time"
+	"io/ioutil"
 )
 
 var startTime time.Time = time.Now()
@@ -18,7 +19,10 @@ func tryDecrypt(file string, password string) {
 	_, err := cmd.Output()
 
 	if err == nil {
+		b := []byte(password)
+		ioutil.WriteFile("clave1.txt",b, 0644)
 		fmt.Printf("\nPassword found: %s\n", password)
+		os.Exit(1)
 	}
 }
 
@@ -27,7 +31,7 @@ func getRandomPassword(chars []rune, length int) string {
 	for i := 0; i < length; i++ {
 		randomCharacter := chars[rand.IntN(len(chars))]
 		password = append(password, randomCharacter)
-	}
+	}	
 	return string(password)
 }
 
